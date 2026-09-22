@@ -500,6 +500,56 @@ def render(data: dict, demo_mode: bool = False) -> str:
 # HTTP server
 # ----------------------------------------------------------------------
 
+def _diagnose_database() -> dict:
+    """Temporary diagnostic route: pinpoints exactly why the database
+    cannot be opened on a given host, without needing shell access there.
+    Safe to leave in (read-only introspection, no secrets), but meant to
+    be removed once deployment is confirmed working."""
+    import sqlite3
+
+    out: dict = {"cwd": os.getcwd()}
+    try:
+        db_path = find_database()
+        out["find_database"] = str(db_path)
+    except Exception as exc:
+        out["find_database_error"] = f"{type(exc).__name__}: {exc}"
+        return out
+
+    try:
+        st = db_path.stat()
+        out["exists"] = True
+        out["size_bytes"] = st.st_size
+        out["mode_octal"] = oct(st.st_mode)
+    except Exception as exc:
+        out["stat_error"] = f"{type(exc).__name__}: {exc}"
+
+    try:
+        with open(db_path, "rb") as fh:
+            out["open_rb_first_16_bytes_hex"] = fh.read(16).hex()
+    except Exception as exc:
+        out["open_rb_error"] = f"{type(exc).__name__}: {exc}"
+
+    try:
+        conn = sqlite3.connect(str(db_path))
+        conn.execute("select count(*) from sales").fetchone()
+        conn.close()
+        out["plain_sqlite_connect"] = "ok"
+    except Exception as exc:
+        out["plain_sqlite_connect_error"] = f"{type(exc).__name__}: {exc}"
+
+    try:
+        uri = f"{db_path.resolve().as_uri()}?mode=ro"
+        out["readonly_uri"] = uri
+        conn = sqlite3.connect(uri, uri=True)
+        conn.execute("select count(*) from sales").fetchone()
+        conn.close()
+        out["readonly_uri_connect"] = "ok"
+    except Exception as exc:
+        out["readonly_uri_connect_error"] = f"{type(exc).__name__}: {exc}"
+
+    return out
+
+
 class Handler(BaseHTTPRequestHandler):
     def _send_json(self, payload: dict, status: int = 200) -> None:
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -532,6 +582,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.end_headers()
             elif path == "/api/health":
                 self._send_json({"status": "ok", "database": str(find_database())})
+            elif path == "/api/diag":
+                self._send_json(_diagnose_database())
             elif path == "/api/qa":
                 question = (query.get("q", [""])[0]).strip()
                 try:
