@@ -1,5 +1,4 @@
 import sqlite3
-from pathlib import Path
 
 from decision_engine import (
     CamtradeData,
@@ -12,12 +11,13 @@ from decision_engine import (
 # CAMTRADE - ANALYTICS ENGINE v1
 # ============================================================
 
-BASE = Path(__file__).resolve().parent
-DB = BASE / "CAMTRADE_DATA" / "CAMTRADE.db"
-
-
 def connect():
-    conn = sqlite3.connect(DB)
+    # Reuse decision_engine's own database lookup (checks several real
+    # locations, including a hosting platform's layout where the database
+    # sits next to the code rather than in a CAMTRADE_DATA subfolder)
+    # instead of a second, independent hardcoded path that can silently
+    # point at a file/folder that does not exist on a given host.
+    conn = sqlite3.connect(find_database())
     conn.row_factory = sqlite3.Row
     return conn
 
