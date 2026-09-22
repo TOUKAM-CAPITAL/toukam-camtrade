@@ -104,53 +104,8 @@ def year_filter(date_column: str) -> str:
     return f"strftime('%Y', {date_column}) = ?"
 
 
-def cogs_proxy_from_sales(data: CamtradeData, year: int) -> dict[str, Any]:
-    """Estimate COGS from units sold and product-level purchase data.
-
-    CAMTRADE has no opening inventory, lot traceability or stock valuation rule.
-    The output is therefore a CMUP proxy, never accounting COGS: annual weighted
-    purchase cost and freight per product are applied to units actually sold.
-    """
-    if not {"product_id", "quantity"}.issubset(data.columns("sales")):
-        return {"cogs": 0.0, "product_cost": 0.0, "inbound_freight": 0.0,
-                "method": "indisponible : produit/quantité absents des ventes", "is_proxy": True}
-    sales_date = data.first_column("sales", ("sale_date", "date", "invoice_date"))
-    purchase_date = data.first_column("purchases", ("purchase_date", "date", "invoice_date"))
-    if not sales_date:
-        return {"cogs": 0.0, "product_cost": 0.0, "inbound_freight": 0.0,
-                "method": "indisponible : date absente des ventes", "is_proxy": True}
-    reference_cost = "p.purchase_cost" if "purchase_cost" in data.columns("products") else "NULL"
-    if purchase_date and {"product_id", "quantity", "total_cost"}.issubset(data.columns("purchases")):
-        freight_expr = "SUM(COALESCE(x.freight, 0))" if "freight" in data.columns("purchases") else "0"
-        rows = data.rows(f"""
-            WITH purchase_costs AS (
-                SELECT x.product_id, SUM(x.total_cost) / NULLIF(SUM(x.quantity), 0) AS weighted_unit_cost,
-                       {freight_expr} / NULLIF(SUM(x.quantity), 0) AS freight_per_unit
-                FROM purchases x WHERE {year_filter('x.' + purchase_date)} GROUP BY x.product_id
-            )
-            SELECT s.product_id, SUM(s.quantity) AS units_sold,
-                   COALESCE(pc.weighted_unit_cost, {reference_cost}) AS unit_cost,
-                   COALESCE(pc.freight_per_unit, 0) AS freight_per_unit
-            FROM sales s LEFT JOIN purchase_costs pc ON pc.product_id = s.product_id
-            LEFT JOIN products p ON p.product_id = s.product_id
-            WHERE {year_filter('s.' + sales_date)} GROUP BY s.product_id
-        """, (str(year), str(year)))
-        method = "proxy CMUP : coût d'achat et fret moyens pondérés par produit, appliqués aux quantités vendues"
-    else:
-        rows = data.rows(f"""
-            SELECT s.product_id, SUM(s.quantity) AS units_sold, {reference_cost} AS unit_cost,
-                   0 AS freight_per_unit FROM sales s LEFT JOIN products p ON p.product_id = s.product_id
-            WHERE {year_filter('s.' + sales_date)} GROUP BY s.product_id
-        """, (str(year),))
-        method = "proxy de secours : coût de référence produit appliqué aux quantités vendues; fret non alloué"
-    product_cost = sum(float(row["units_sold"] or 0) * float(row["unit_cost"] or 0) for row in rows)
-    inbound_freight = sum(float(row["units_sold"] or 0) * float(row["freight_per_unit"] or 0) for row in rows)
-    return {"cogs": product_cost + inbound_freight, "product_cost": product_cost,
-            "inbound_freight": inbound_freight, "method": method, "is_proxy": True}
-
-
-def annual_performance(data: CamtradeData, year: int) -> dict[str, Any]:
-    """Collect annual inputs; raw annual purchases are not treated as COGS."""
+def annual_performance(data: CamtradeData, year: int) -> dict[str, float]:
+    """Collect annual inputs. Missing fields become 0, not a crash."""
     def yearly_sum(table: str, value_names: tuple[str, ...], date_names: tuple[str, ...]) -> float:
         value_col = data.first_column(table, value_names)
         date_col = data.first_column(table, date_names)
@@ -161,7 +116,6 @@ def annual_performance(data: CamtradeData, year: int) -> dict[str, Any]:
             (str(year),),
         )
 
-    cogs = cogs_proxy_from_sales(data, year)
     return {
         "year": float(year),
         "revenue": yearly_sum("sales", ("revenue", "amount", "sales_amount", "total"), ("sale_date", "date", "invoice_date")),
@@ -169,15 +123,12 @@ def annual_performance(data: CamtradeData, year: int) -> dict[str, Any]:
         "purchase_freight": yearly_sum("purchases", ("freight", "transport", "shipping_cost"), ("purchase_date", "date", "invoice_date")),
         "sales_transport": yearly_sum("sales", ("allocated_transport", "transport", "delivery_cost"), ("sale_date", "date", "invoice_date")),
         "operating_expenses": yearly_sum("expenses", ("amount", "expense_amount", "total"), ("expense_month", "expense_date", "date", "month")),
-        "cogs": cogs["cogs"], "cogs_product_cost": cogs["product_cost"],
-        "cogs_inbound_freight": cogs["inbound_freight"], "cogs_method": cogs["method"],
-        "cogs_is_proxy": cogs["is_proxy"],
     }
 
 
-def ebitda_analytical(inputs: dict[str, Any]) -> dict[str, Any]:
+def ebitda_analytical(inputs: dict[str, float]) -> dict[str, float]:
     revenue = inputs["revenue"]
-    gross_profit = revenue - inputs["cogs"] - inputs["sales_transport"]
+    gross_profit = revenue - inputs["purchases"] - inputs["purchase_freight"] - inputs["sales_transport"]
     ebitda = gross_profit - inputs["operating_expenses"]
     return {**inputs, "gross_profit": gross_profit, "ebitda": ebitda,
             "gross_margin_pct": gross_profit / revenue * 100 if revenue else 0.0,
@@ -217,10 +168,10 @@ def customer_contributions(data: CamtradeData, year: int) -> tuple[list[dict[str
             GROUP BY s.customer_id, customer_name
         """, (str(year),))
         total_revenue = sum(float(row["revenue"] or 0) for row in rows)
-        cogs_total = annual_performance(data, year)["cogs"]
+        purchase_total = annual_performance(data, year)["purchases"]
         for row in rows:
-            row["direct_cost"] = cogs_total * float(row["revenue"] or 0) / total_revenue if total_revenue else 0.0
-        method = "proxy : COGS estimé réparti au prorata du chiffre d'affaires"
+            row["direct_cost"] = purchase_total * float(row["revenue"] or 0) / total_revenue if total_revenue else 0.0
+        method = "proxy : achats annuels répartis au prorata du chiffre d'affaires"
 
     result: list[dict[str, Any]] = []
     for row in rows:
@@ -248,7 +199,7 @@ def transport_analysis(data: CamtradeData, year: int) -> list[dict[str, Any]]:
     """, (str(year),))
 
 
-def credit_risk(data: CamtradeData, limit: int = 5) -> list[dict[str, Any]]:
+def credit_risk(data: CamtradeData) -> list[dict[str, Any]]:
     if not data.has_table("receivables"):
         return []
     needed = {"customer_id", "outstanding_balance", "days_overdue"}
@@ -257,97 +208,7 @@ def credit_risk(data: CamtradeData, limit: int = 5) -> list[dict[str, Any]]:
     name = "customer_name" if "customer_name" in data.columns("receivables") else "customer_id"
     status_filter = "WHERE status = 'En retard'" if "status" in data.columns("receivables") else "WHERE days_overdue > 0"
     return data.rows(f"SELECT customer_id, {name} AS customer_name, outstanding_balance, days_overdue "
-                     f"FROM receivables {status_filter} ORDER BY outstanding_balance DESC LIMIT {int(limit)}")
-
-
-def product_margin_analysis(data: CamtradeData, year: int) -> tuple[list[dict[str, Any]], str, bool]:
-    """Per-product revenue vs. allocated cost, to flag which products destroy the most margin.
-
-    Uses the same weighted-average-purchase-cost-per-unit proxy as the COGS engine
-    (cogs_proxy_from_sales), applied at product granularity instead of totals.
-    This is always an analytical estimate: CAMTRADE has no per-sale product cost.
-    """
-    sales_date = data.first_column("sales", ("sale_date", "date", "invoice_date"))
-    if not sales_date or not {"product_id", "quantity", "revenue"}.issubset(data.columns("sales")):
-        return [], "unavailable: sales table must include product_id, quantity and revenue", True
-
-    purchase_date = data.first_column("purchases", ("purchase_date", "date", "invoice_date"))
-    product_name_col = "p.product_name" if "product_name" in data.columns("products") else "s.product_id"
-    join_products = "LEFT JOIN products p ON p.product_id = s.product_id" if data.has_table("products") else ""
-    reference_cost = "p.purchase_cost" if "purchase_cost" in data.columns("products") else "NULL"
-
-    cost_by_product: dict[str, dict[str, Any]] = {}
-    if purchase_date and {"product_id", "quantity", "total_cost"}.issubset(data.columns("purchases")):
-        freight_expr = "SUM(x.freight)" if "freight" in data.columns("purchases") else "0"
-        cost_rows = data.rows(f"""
-            SELECT x.product_id, SUM(x.total_cost) / NULLIF(SUM(x.quantity), 0) AS weighted_unit_cost,
-                   {freight_expr} / NULLIF(SUM(x.quantity), 0) AS freight_per_unit
-            FROM purchases x WHERE {year_filter('x.' + purchase_date)} GROUP BY x.product_id
-        """, (str(year),))
-        cost_by_product = {row["product_id"]: row for row in cost_rows}
-        method = "proxy: weighted-average purchase cost + freight per unit (from purchases in the period), applied to units sold"
-    else:
-        method = "proxy: reference product cost only (no purchase-level costing available for the period)"
-
-    rows = data.rows(f"""
-        SELECT s.product_id, COALESCE({product_name_col}, s.product_id) AS product_name,
-               SUM(s.quantity) AS units_sold, SUM(s.revenue) AS revenue,
-               COALESCE({reference_cost}, 0) AS reference_cost
-        FROM sales s {join_products}
-        WHERE {year_filter('s.' + sales_date)}
-        GROUP BY s.product_id, product_name
-    """, (str(year),))
-
-    result: list[dict[str, Any]] = []
-    for row in rows:
-        units = float(row["units_sold"] or 0)
-        revenue = float(row["revenue"] or 0)
-        proxy = cost_by_product.get(row["product_id"])
-        if proxy and proxy.get("weighted_unit_cost") is not None:
-            unit_cost = float(proxy["weighted_unit_cost"] or 0)
-            freight_unit = float(proxy["freight_per_unit"] or 0)
-        else:
-            unit_cost = float(row["reference_cost"] or 0)
-            freight_unit = 0.0
-        allocated_cost = units * (unit_cost + freight_unit)
-        margin = revenue - allocated_cost
-        result.append({
-            "product_id": row["product_id"], "product_name": row["product_name"],
-            "units_sold": units, "revenue": revenue, "allocated_cost": allocated_cost,
-            "margin": margin, "margin_pct": (margin / revenue * 100) if revenue else 0.0,
-        })
-    return sorted(result, key=lambda r: r["margin"]), method, True
-
-
-def expense_variance(data: CamtradeData, year: int, previous_year: int) -> tuple[list[dict[str, Any]], str]:
-    """Compare operating expenses by category across two years — measured directly
-    from the expenses table (no allocation or estimation involved)."""
-    if not data.has_table("expenses"):
-        return [], "unavailable: expenses table missing"
-    type_col = data.first_column("expenses", ("expense_type", "category", "type"))
-    amount_col = data.first_column("expenses", ("amount", "expense_amount", "total"))
-    date_col = data.first_column("expenses", ("expense_month", "expense_date", "date", "month"))
-    if not (type_col and amount_col and date_col):
-        return [], "unavailable: expenses table missing type/amount/date columns"
-
-    def totals_for(target_year: int) -> dict[str, float]:
-        rows = data.rows(
-            f"SELECT {type_col} AS expense_type, SUM({amount_col}) AS total FROM expenses "
-            f"WHERE {year_filter(date_col)} GROUP BY expense_type",
-            (str(target_year),),
-        )
-        return {row["expense_type"]: float(row["total"] or 0) for row in rows}
-
-    current_totals, previous_totals = totals_for(year), totals_for(previous_year)
-    categories = sorted(set(current_totals) | set(previous_totals))
-    result = []
-    for category in categories:
-        old, new = previous_totals.get(category, 0.0), current_totals.get(category, 0.0)
-        result.append({
-            "expense_type": category, "previous": old, "current": new,
-            "change": new - old, "variation_pct": change(old, new),
-        })
-    return sorted(result, key=lambda r: r["change"], reverse=True), "measured: summed directly from the expenses table by category and period"
+                     f"FROM receivables {status_filter} ORDER BY outstanding_balance DESC LIMIT 5")
 
 
 def line(char: str = "=") -> None:
@@ -366,21 +227,20 @@ def diagnose(data: CamtradeData, year: int) -> None:
     print("\n1. PERFORMANCE 2024 / 2025")
     line("-")
     print(f"{'Indicateur':<30}{year - 1:>18}{year:>18}{'Variation':>16}")
-    for label, key in (("Chiffre d'affaires", "revenue"), ("COGS estimé", "cogs"), ("Marge brute analytique", "gross_profit"), ("EBITDA analytique", "ebitda")):
+    for label, key in (("Chiffre d'affaires", "revenue"), ("Marge brute analytique", "gross_profit"), ("EBITDA analytique", "ebitda")):
         print(f"{label:<30}{amount(previous[key]):>18}{amount(current[key]):>18}{pct(change(previous[key], current[key])):>16}")
     print(f"Marge EBITDA analytique : {pct(previous['ebitda_margin_pct'])} -> {pct(current['ebitda_margin_pct'])}")
 
     print("\n2. DIAGNOSTIC EBITDA — FACTEURS EXPLICATIFS")
     line("-")
-    components = (("CA", "revenue", 1), ("COGS estimé — coût produit", "cogs_product_cost", -1), ("COGS estimé — fret entrant", "cogs_inbound_freight", -1),
+    components = (("CA", "revenue", 1), ("Achats", "purchases", -1), ("Fret des achats", "purchase_freight", -1),
                   ("Transport des ventes", "sales_transport", -1), ("Dépenses opérationnelles", "operating_expenses", -1))
     for label, key, sign in components:
         raw_delta = current[key] - previous[key]
         impact = raw_delta * sign
         direction = "améliore" if impact >= 0 else "dégrade"
         print(f"• {label:<28} {amount(current[key]):>18} | évolution {amount(raw_delta):>18} | {direction} l'EBITDA de {amount(abs(impact))}")
-    print(f"Méthode COGS : {current['cogs_method']}.")
-    print("ATTENTION : ce COGS est un proxy ; sans stocks d'ouverture/clôture et règle FIFO/CMUP documentée, il ne constitue pas un coût comptable réel.")
+    print("Note : les achats annuels ne sont pas nécessairement le coût des marchandises vendues (variation de stock possible).")
 
     print("\n3. ANALYSE CLIENTS")
     line("-")
@@ -390,7 +250,7 @@ def diagnose(data: CamtradeData, year: int) -> None:
         print(f"Méthode : {customer_method}.")
         if customer_method.startswith("proxy"):
             print("ATTENTION — Estimation de contribution : modèle analytique, PAS une rentabilité client comptable.")
-            print("  Valider prix, produits, stock et coûts directs avant décision : la clé client n'est pas disponible pour affecter le COGS directement.")
+            print("  Les achats incluent potentiellement des stocks non vendus : valider prix, produits, stock et coûts directs avant décision.")
         print(f"{'Client':<24}{'CA':>16}{'Transport':>16}{'Contribution*':>18}{'Marge*':>10}")
         for row in customers[:5]:
             print(f"{str(row['customer_name'])[:23]:<24}{amount(row['revenue']):>16}{amount(row['transport']):>16}{amount(row['contribution']):>18}{pct(row['margin_pct']):>10}")
@@ -418,7 +278,7 @@ def diagnose(data: CamtradeData, year: int) -> None:
     if change(previous["ebitda"], current["ebitda"]) is not None and current["ebitda"] < previous["ebitda"]:
         recommendations.append("Réconcilier la baisse d'EBITDA avec les variations de CA, achats, fret, transport et dépenses avant toute action commerciale.")
     if customer_method.startswith("proxy"):
-        recommendations.append("Construire un coût des marchandises vendues par client/vente ; ne pas négocier ou abandonner un client sur la seule répartition analytique du COGS.")
+        recommendations.append("Construire un coût des marchandises vendues par produit/vente ; ne pas négocier ou abandonner un client sur la seule allocation des achats annuels.")
     if transport:
         recommendations.append("Revoir les tournées, minimums de commande et conditions de livraison des clients aux coûts de transport les plus élevés.")
     if receivables:
