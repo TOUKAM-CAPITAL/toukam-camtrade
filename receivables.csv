@@ -1,0 +1,81 @@
+﻿customer_id,customer_name,outstanding_balance,days_overdue,status
+C001,Client 001,15785450,34,En retard
+C002,Client 002,18836702,0,Normal
+C003,Client 003,0,38,En retard
+C004,Client 004,53373428,0,Normal
+C005,Client 005,20426624,21,Normal
+C006,Client 006,26802097,31,En retard
+C007,Client 007,13681645,16,Normal
+C008,Client 008,14501990,0,Normal
+C009,Client 009,16894175,2,Normal
+C010,Client 010,41297050,32,En retard
+C011,Client 011,16818651,20,Normal
+C012,Client 012,30034555,26,Normal
+C013,Client 013,18858430,16,Normal
+C014,Client 014,0,36,En retard
+C015,Client 015,27879007,34,En retard
+C016,Client 016,44647797,49,En retard
+C017,Client 017,19347718,14,Normal
+C018,Client 018,19791372,12,Normal
+C019,Client 019,34298077,50,En retard
+C020,Client 020,0,0,Normal
+C021,Client 021,39829893,2,Normal
+C022,Client 022,25591558,1,Normal
+C023,Client 023,23840940,25,Normal
+C024,Client 024,0,32,En retard
+C025,Client 025,3836905,35,En retard
+C026,Client 026,30632939,1,Normal
+C027,Client 027,12474110,22,Normal
+C028,Client 028,8379647,14,Normal
+C029,Client 029,20443361,25,Normal
+C030,Client 030,7397799,5,Normal
+C031,Client 031,38887031,29,Normal
+C032,Client 032,33094695,32,En retard
+C033,Client 033,28989776,37,En retard
+C034,Client 034,17931928,11,Normal
+C035,Client 035,9162026,16,Normal
+C036,Client 036,13930587,18,Normal
+C037,Client 037,17016016,32,En retard
+C038,Client 038,21972031,24,Normal
+C039,Client 039,22906929,31,En retard
+C040,Client 040,13217801,18,Normal
+C041,Client 041,29154518,27,Normal
+C042,Client 042,32435797,0,Normal
+C043,Client 043,0,0,Normal
+C044,Client 044,7255114,51,En retard
+C045,Client 045,13796336,0,Normal
+C046,Client 046,26533434,42,En retard
+C047,Client 047,6044734,21,Normal
+C048,Client 048,13964964,0,Normal
+C049,Client 049,27776709,0,Normal
+C050,Client 050,35936485,22,Normal
+C051,Client 051,3494770,8,Normal
+C052,Client 052,23524062,0,Normal
+C053,Client 053,33107703,0,Normal
+C054,Client 054,35339775,11,Normal
+C055,Client 055,23691913,27,Normal
+C056,Client 056,32386791,31,En retard
+C057,Client 057,27340454,0,Normal
+C058,Client 058,28111380,0,Normal
+C059,Client 059,32125557,12,Normal
+C060,Client 060,20315161,0,Normal
+C061,Client 061,31391527,61,En retard
+C062,Client 062,20265548,28,Normal
+C063,Client 063,21941684,46,En retard
+C064,Client 064,30576088,41,En retard
+C065,Client 065,38945121,37,En retard
+C066,Client 066,33695943,0,Normal
+C067,Client 067,27983099,56,En retard
+C068,Client 068,24759432,18,Normal
+C069,Client 069,8710113,34,En retard
+C070,Client 070,30049291,22,Normal
+C071,Client 071,30768367,7,Normal
+C072,Client 072,19189074,23,Normal
+C073,Client 073,16312391,0,Normal
+C074,Client 074,22918283,36,En retard
+C075,Client 075,29160236,19,Normal
+C076,Client 076,20635157,12,Normal
+C077,Client 077,32561421,27,Normal
+C078,Client 078,26608548,27,Normal
+C079,Client 079,22614978,15,Normal
+C080,Client 080,9588203,3,Normal

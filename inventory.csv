@@ -1,0 +1,21 @@
+﻿product_id,product_name,current_stock,reorder_point,average_monthly_demand,status
+P001,Riz parfume 25kg,3053,671,1373,Normal
+P002,Riz ordinaire 25kg,120,615,1259,Risque rupture
+P003,Huile vegetale 1L,3270,719,1471,Normal
+P004,Huile vegetale 5L,3183,700,1432,Normal
+P005,Sucre 1kg,958,210,431,Normal
+P006,Lait en poudre 500g,2381,523,1071,Normal
+P007,Spaghetti 500g,2872,631,1292,Normal
+P008,Savon 250g,514,113,231,Normal
+P009,Detergent 1L,85,731,1496,Risque rupture
+P010,Eau minerale 1.5L,627,137,282,Normal
+P011,Boisson gazeuse 50cl,2056,452,925,Normal
+P012,Jus de fruit 1L,3433,755,1544,Normal
+P013,Cafe 250g,2501,550,1125,Normal
+P014,Tomate concentree,3064,674,1378,Normal
+P015,Farine 1kg,1436,315,646,Normal
+P016,Biscuit familial,4200,442,904,Stock dormant
+P017,Papier hygienique,60,349,715,Risque rupture
+P018,Gel douche,1127,247,507,Normal
+P019,Carton emballage,3900,568,1161,Stock dormant
+P020,Produit premium importe,2446,538,1100,Normal

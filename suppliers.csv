@@ -1,0 +1,8 @@
+﻿supplier_id,supplier_name,country,specialty,payment_days
+S001,Global Foods Trading,Chine,Alimentaire,18
+S002,West Africa Supply,Nigeria,Alimentaire,12
+S003,Gulf Consumer Goods,UAE,Alimentaire,25
+S004,CleanHome Industries,Turquie,Hygiene,20
+S005,CamBeverage,Cameroun,Boissons,10
+S006,PackCam,Cameroun,Emballage,14
+S007,Premium Imports,UAE,Premium,30

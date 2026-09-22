@@ -1,0 +1,21 @@
+﻿product_id,product_name,category,purchase_cost,standard_sale_price,source
+P001,Riz parfume 25kg,Alimentaire,12500,15500,Import
+P002,Riz ordinaire 25kg,Alimentaire,10500,13200,Import
+P003,Huile vegetale 1L,Alimentaire,1800,2400,Import
+P004,Huile vegetale 5L,Alimentaire,8200,10500,Import
+P005,Sucre 1kg,Alimentaire,650,900,Import
+P006,Lait en poudre 500g,Alimentaire,4800,6200,Import
+P007,Spaghetti 500g,Alimentaire,550,800,Import
+P008,Savon 250g,Hygiene,450,650,Import
+P009,Detergent 1L,Hygiene,1300,1900,Import
+P010,Eau minerale 1.5L,Boissons,250,450,Local
+P011,Boisson gazeuse 50cl,Boissons,300,500,Local
+P012,Jus de fruit 1L,Boissons,900,1450,Local
+P013,Cafe 250g,Alimentaire,2200,3200,Import
+P014,Tomate concentree,Alimentaire,750,1100,Import
+P015,Farine 1kg,Alimentaire,700,980,Import
+P016,Biscuit familial,Alimentaire,900,1350,Import
+P017,Papier hygienique,Hygiene,1700,2450,Import
+P018,Gel douche,Hygiene,1800,2900,Import
+P019,Carton emballage,Emballage,2200,3000,Local
+P020,Produit premium importe,Premium,9500,14500,Import

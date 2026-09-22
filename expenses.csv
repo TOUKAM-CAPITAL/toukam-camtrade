@@ -1,0 +1,241 @@
+﻿expense_id,expense_month,expense_type,amount,expense_class
+E00001,2024-01-01,Salaires,2205770,Operating
+E00002,2024-01-01,Transport,1674800,Operating
+E00003,2024-01-01,Loyer,837430,Operating
+E00004,2024-01-01,Energie,762585,Operating
+E00005,2024-01-01,Marketing,746652,Operating
+E00006,2024-01-01,Maintenance,615470,Operating
+E00007,2024-01-01,Frais bancaires,424609,Operating
+E00008,2024-01-01,Telecom,346034,Operating
+E00009,2024-01-01,Assurance,354110,Operating
+E00010,2024-01-01,Divers,775401,Operating
+E00011,2024-02-01,Salaires,2353691,Operating
+E00012,2024-02-01,Transport,1785033,Operating
+E00013,2024-02-01,Loyer,849824,Operating
+E00014,2024-02-01,Energie,768016,Operating
+E00015,2024-02-01,Marketing,668247,Operating
+E00016,2024-02-01,Maintenance,618068,Operating
+E00017,2024-02-01,Frais bancaires,470507,Operating
+E00018,2024-02-01,Telecom,343214,Operating
+E00019,2024-02-01,Assurance,329827,Operating
+E00020,2024-02-01,Divers,643042,Operating
+E00021,2024-03-01,Salaires,2501582,Operating
+E00022,2024-03-01,Transport,1698755,Operating
+E00023,2024-03-01,Loyer,879332,Operating
+E00024,2024-03-01,Energie,646674,Operating
+E00025,2024-03-01,Marketing,788933,Operating
+E00026,2024-03-01,Maintenance,565237,Operating
+E00027,2024-03-01,Frais bancaires,441220,Operating
+E00028,2024-03-01,Telecom,352885,Operating
+E00029,2024-03-01,Assurance,357411,Operating
+E00030,2024-03-01,Divers,705569,Operating
+E00031,2024-04-01,Salaires,2415921,Operating
+E00032,2024-04-01,Transport,1704420,Operating
+E00033,2024-04-01,Loyer,929018,Operating
+E00034,2024-04-01,Energie,813731,Operating
+E00035,2024-04-01,Marketing,681682,Operating
+E00036,2024-04-01,Maintenance,657898,Operating
+E00037,2024-04-01,Frais bancaires,416720,Operating
+E00038,2024-04-01,Telecom,329562,Operating
+E00039,2024-04-01,Assurance,324604,Operating
+E00040,2024-04-01,Divers,664545,Operating
+E00041,2024-05-01,Salaires,2114680,Operating
+E00042,2024-05-01,Transport,1821943,Operating
+E00043,2024-05-01,Loyer,923628,Operating
+E00044,2024-05-01,Energie,668638,Operating
+E00045,2024-05-01,Marketing,746440,Operating
+E00046,2024-05-01,Maintenance,604229,Operating
+E00047,2024-05-01,Frais bancaires,411708,Operating
+E00048,2024-05-01,Telecom,360418,Operating
+E00049,2024-05-01,Assurance,376973,Operating
+E00050,2024-05-01,Divers,704737,Operating
+E00051,2024-06-01,Salaires,2353120,Operating
+E00052,2024-06-01,Transport,1823455,Operating
+E00053,2024-06-01,Loyer,908315,Operating
+E00054,2024-06-01,Energie,693238,Operating
+E00055,2024-06-01,Marketing,688941,Operating
+E00056,2024-06-01,Maintenance,535372,Operating
+E00057,2024-06-01,Frais bancaires,394361,Operating
+E00058,2024-06-01,Telecom,372858,Operating
+E00059,2024-06-01,Assurance,368490,Operating
+E00060,2024-06-01,Divers,677519,Operating
+E00061,2024-07-01,Salaires,2228783,Operating
+E00062,2024-07-01,Transport,1738149,Operating
+E00063,2024-07-01,Loyer,833465,Operating
+E00064,2024-07-01,Energie,740048,Operating
+E00065,2024-07-01,Marketing,680125,Operating
+E00066,2024-07-01,Maintenance,615561,Operating
+E00067,2024-07-01,Frais bancaires,448230,Operating
+E00068,2024-07-01,Telecom,393479,Operating
+E00069,2024-07-01,Assurance,350027,Operating
+E00070,2024-07-01,Divers,708124,Operating
+E00071,2024-08-01,Salaires,2257840,Operating
+E00072,2024-08-01,Transport,1593605,Operating
+E00073,2024-08-01,Loyer,892375,Operating
+E00074,2024-08-01,Energie,752564,Operating
+E00075,2024-08-01,Marketing,719549,Operating
+E00076,2024-08-01,Maintenance,656015,Operating
+E00077,2024-08-01,Frais bancaires,490883,Operating
+E00078,2024-08-01,Telecom,349547,Operating
+E00079,2024-08-01,Assurance,369189,Operating
+E00080,2024-08-01,Divers,685763,Operating
+E00081,2024-09-01,Salaires,2187952,Operating
+E00082,2024-09-01,Transport,1651954,Operating
+E00083,2024-09-01,Loyer,882531,Operating
+E00084,2024-09-01,Energie,734765,Operating
+E00085,2024-09-01,Marketing,678583,Operating
+E00086,2024-09-01,Maintenance,581592,Operating
+E00087,2024-09-01,Frais bancaires,434471,Operating
+E00088,2024-09-01,Telecom,350028,Operating
+E00089,2024-09-01,Assurance,383780,Operating
+E00090,2024-09-01,Divers,734136,Operating
+E00091,2024-10-01,Salaires,2143900,Operating
+E00092,2024-10-01,Transport,1832544,Operating
+E00093,2024-10-01,Loyer,910697,Operating
+E00094,2024-10-01,Energie,712764,Operating
+E00095,2024-10-01,Marketing,724290,Operating
+E00096,2024-10-01,Maintenance,634747,Operating
+E00097,2024-10-01,Frais bancaires,401246,Operating
+E00098,2024-10-01,Telecom,392140,Operating
+E00099,2024-10-01,Assurance,352399,Operating
+E00100,2024-10-01,Divers,702950,Operating
+E00101,2024-11-01,Salaires,2364820,Operating
+E00102,2024-11-01,Transport,1779607,Operating
+E00103,2024-11-01,Loyer,796917,Operating
+E00104,2024-11-01,Energie,725377,Operating
+E00105,2024-11-01,Marketing,659352,Operating
+E00106,2024-11-01,Maintenance,612672,Operating
+E00107,2024-11-01,Frais bancaires,430411,Operating
+E00108,2024-11-01,Telecom,356901,Operating
+E00109,2024-11-01,Assurance,353235,Operating
+E00110,2024-11-01,Divers,588773,Operating
+E00111,2024-12-01,Salaires,2186756,Operating
+E00112,2024-12-01,Transport,1919583,Operating
+E00113,2024-12-01,Loyer,881558,Operating
+E00114,2024-12-01,Energie,617166,Operating
+E00115,2024-12-01,Marketing,723844,Operating
+E00116,2024-12-01,Maintenance,587817,Operating
+E00117,2024-12-01,Frais bancaires,432873,Operating
+E00118,2024-12-01,Telecom,337962,Operating
+E00119,2024-12-01,Assurance,355966,Operating
+E00120,2024-12-01,Divers,759408,Operating
+E00121,2025-01-01,Salaires,2805755,Operating
+E00122,2025-01-01,Transport,2425349,Operating
+E00123,2025-01-01,Loyer,980426,Operating
+E00124,2025-01-01,Energie,1074539,Operating
+E00125,2025-01-01,Marketing,778313,Operating
+E00126,2025-01-01,Maintenance,775564,Operating
+E00127,2025-01-01,Frais bancaires,512894,Operating
+E00128,2025-01-01,Telecom,423902,Operating
+E00129,2025-01-01,Assurance,410860,Operating
+E00130,2025-01-01,Divers,923251,Operating
+E00131,2025-02-01,Salaires,2467773,Operating
+E00132,2025-02-01,Transport,2753720,Operating
+E00133,2025-02-01,Loyer,1034933,Operating
+E00134,2025-02-01,Energie,1060968,Operating
+E00135,2025-02-01,Marketing,814158,Operating
+E00136,2025-02-01,Maintenance,649514,Operating
+E00137,2025-02-01,Frais bancaires,541949,Operating
+E00138,2025-02-01,Telecom,425665,Operating
+E00139,2025-02-01,Assurance,436653,Operating
+E00140,2025-02-01,Divers,869996,Operating
+E00141,2025-03-01,Salaires,2656653,Operating
+E00142,2025-03-01,Transport,2414474,Operating
+E00143,2025-03-01,Loyer,1028976,Operating
+E00144,2025-03-01,Energie,1038068,Operating
+E00145,2025-03-01,Marketing,833122,Operating
+E00146,2025-03-01,Maintenance,681004,Operating
+E00147,2025-03-01,Frais bancaires,488620,Operating
+E00148,2025-03-01,Telecom,392125,Operating
+E00149,2025-03-01,Assurance,452732,Operating
+E00150,2025-03-01,Divers,860654,Operating
+E00151,2025-04-01,Salaires,2517595,Operating
+E00152,2025-04-01,Transport,2440357,Operating
+E00153,2025-04-01,Loyer,1088626,Operating
+E00154,2025-04-01,Energie,1104820,Operating
+E00155,2025-04-01,Marketing,878432,Operating
+E00156,2025-04-01,Maintenance,2079079,Operating
+E00157,2025-04-01,Frais bancaires,494124,Operating
+E00158,2025-04-01,Telecom,366683,Operating
+E00159,2025-04-01,Assurance,447147,Operating
+E00160,2025-04-01,Divers,736133,Operating
+E00161,2025-05-01,Salaires,2655550,Operating
+E00162,2025-05-01,Transport,2700710,Operating
+E00163,2025-05-01,Loyer,989815,Operating
+E00164,2025-05-01,Energie,950614,Operating
+E00165,2025-05-01,Marketing,843392,Operating
+E00166,2025-05-01,Maintenance,725903,Operating
+E00167,2025-05-01,Frais bancaires,581422,Operating
+E00168,2025-05-01,Telecom,431593,Operating
+E00169,2025-05-01,Assurance,443505,Operating
+E00170,2025-05-01,Divers,876195,Operating
+E00171,2025-06-01,Salaires,2487985,Operating
+E00172,2025-06-01,Transport,2504737,Operating
+E00173,2025-06-01,Loyer,995633,Operating
+E00174,2025-06-01,Energie,995786,Operating
+E00175,2025-06-01,Marketing,808180,Operating
+E00176,2025-06-01,Maintenance,781189,Operating
+E00177,2025-06-01,Frais bancaires,528492,Operating
+E00178,2025-06-01,Telecom,365129,Operating
+E00179,2025-06-01,Assurance,386733,Operating
+E00180,2025-06-01,Divers,859996,Operating
+E00181,2025-07-01,Salaires,2751126,Operating
+E00182,2025-07-01,Transport,2649060,Operating
+E00183,2025-07-01,Loyer,1025677,Operating
+E00184,2025-07-01,Energie,1005020,Operating
+E00185,2025-07-01,Marketing,883944,Operating
+E00186,2025-07-01,Maintenance,864873,Operating
+E00187,2025-07-01,Frais bancaires,502611,Operating
+E00188,2025-07-01,Telecom,428494,Operating
+E00189,2025-07-01,Assurance,415385,Operating
+E00190,2025-07-01,Divers,895317,Operating
+E00191,2025-08-01,Salaires,2980335,Operating
+E00192,2025-08-01,Transport,2460797,Operating
+E00193,2025-08-01,Loyer,1094283,Operating
+E00194,2025-08-01,Energie,972106,Operating
+E00195,2025-08-01,Marketing,857996,Operating
+E00196,2025-08-01,Maintenance,723726,Operating
+E00197,2025-08-01,Frais bancaires,510950,Operating
+E00198,2025-08-01,Telecom,431853,Operating
+E00199,2025-08-01,Assurance,401836,Operating
+E00200,2025-08-01,Divers,900963,Operating
+E00201,2025-09-01,Salaires,2918808,Operating
+E00202,2025-09-01,Transport,2510776,Operating
+E00203,2025-09-01,Loyer,998528,Operating
+E00204,2025-09-01,Energie,965529,Operating
+E00205,2025-09-01,Marketing,816427,Operating
+E00206,2025-09-01,Maintenance,752890,Operating
+E00207,2025-09-01,Frais bancaires,554056,Operating
+E00208,2025-09-01,Telecom,437187,Operating
+E00209,2025-09-01,Assurance,441627,Operating
+E00210,2025-09-01,Divers,843450,Operating
+E00211,2025-10-01,Salaires,2636351,Operating
+E00212,2025-10-01,Transport,2327260,Operating
+E00213,2025-10-01,Loyer,1006139,Operating
+E00214,2025-10-01,Energie,954698,Operating
+E00215,2025-10-01,Marketing,758408,Operating
+E00216,2025-10-01,Maintenance,2177625,Operating
+E00217,2025-10-01,Frais bancaires,531679,Operating
+E00218,2025-10-01,Telecom,443161,Operating
+E00219,2025-10-01,Assurance,393926,Operating
+E00220,2025-10-01,Divers,879651,Operating
+E00221,2025-11-01,Salaires,2782979,Operating
+E00222,2025-11-01,Transport,2526613,Operating
+E00223,2025-11-01,Loyer,1007950,Operating
+E00224,2025-11-01,Energie,963753,Operating
+E00225,2025-11-01,Marketing,886060,Operating
+E00226,2025-11-01,Maintenance,684190,Operating
+E00227,2025-11-01,Frais bancaires,508740,Operating
+E00228,2025-11-01,Telecom,387301,Operating
+E00229,2025-11-01,Assurance,434229,Operating
+E00230,2025-11-01,Divers,751846,Operating
+E00231,2025-12-01,Salaires,2755246,Operating
+E00232,2025-12-01,Transport,2303642,Operating
+E00233,2025-12-01,Loyer,1096402,Operating
+E00234,2025-12-01,Energie,1061260,Operating
+E00235,2025-12-01,Marketing,793654,Operating
+E00236,2025-12-01,Maintenance,707878,Operating
+E00237,2025-12-01,Frais bancaires,524554,Operating
+E00238,2025-12-01,Telecom,421991,Operating
+E00239,2025-12-01,Assurance,363714,Operating
+E00240,2025-12-01,Divers,850509,Operating
