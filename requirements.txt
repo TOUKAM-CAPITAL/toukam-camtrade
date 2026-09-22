@@ -1,0 +1,5 @@
+# TOUKAM Business Intelligence — CAMTRADE dashboard.
+# Deliberately empty: the whole project uses only Python's standard library
+# (http.server, sqlite3, json, html) — no external dependencies at all.
+# This file exists so hosting platforms (Render, Railway, etc.) reliably
+# detect this as a Python app and know how to build/run it.
